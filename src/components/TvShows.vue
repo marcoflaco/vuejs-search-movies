@@ -96,15 +96,14 @@ export default {
   computed: {
     //filter result for search
     filteredResult() {
-      let { result } = this;
-      const { searchQuery } = this;
-
-      if (!searchQuery) {
-        return result;
+      const res = this.result;
+      const search = this.searchQuery;
+      if (!search) {
+        return res;
       }
-
-      result = result.filter((item) => item);
-      return result;
+      return res.filter((item) =>
+        item.show.name.toLowerCase().includes(search.toLowerCase())
+      );
     },
     //filter from movies array to get genre drama
     tvActionGenre() {
