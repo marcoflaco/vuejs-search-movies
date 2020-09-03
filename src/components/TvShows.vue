@@ -1,6 +1,7 @@
-/* eslint-disable max-len */
+
 <template>
-  <div class="hello">
+  <!-- search template -->
+  <div>
     <h1>Search</h1>
     <b-form-input
       v-model="searchQuery"
@@ -28,28 +29,43 @@
     </div>
     <hr />
     <h1>Shows</h1>
-
+    <!-- show genre drama -->
     <hr />
-    <h1>Drama</h1>
-    <div v-for="(show, index) in movieDramaGenre" :key="show.id">
-      <div v-if="index < 4">
-        <b-card
-          :title="show.name"
-          :img-src="show.image.medium"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2"
-        >
-          <b-card-text>Rating : {{ show.rating.average }}</b-card-text>
-          <b-button
-            tag="router-link"
-            target="_blank"
-            :to="`/show-detail/${show.id}`"
-            variant="primary"
-          >See more</b-button>
-        </b-card>
+    <div>
+      <h1>Drama</h1>
+      <div class="movie__rows">
+        <div v-for="(show, index) in movieDramaGenre" :key="show.id" class="movie__row">
+          <div v-if="index < 4">
+            <img :src="show.image.medium" />
+            <p>{{show.name}}</p>
+            <b-card-text>Rating : {{ show.rating.average }}</b-card-text>
+            <b-button
+              tag="router-link"
+              target="_blank"
+              :to="`/show-detail/${show.id}`"
+              variant="primary"
+            >See more</b-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- show genre action -->
+    <div>
+      <h1>Music</h1>
+      <div class="movie__rows">
+        <div v-for="(show, index) in tvMusicGenre" :key="show.id" class="movie__row">
+          <div v-if="index < 4">
+            <img :src="show.image.medium" />
+            <p>{{show.name}}</p>
+            <b-card-text>Rating : {{ show.rating.average }}</b-card-text>
+            <b-button
+              tag="router-link"
+              target="_blank"
+              :to="`/show-detail/${show.id}`"
+              variant="primary"
+            >See more</b-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +73,7 @@
 
 <script>
 import axios from "axios";
-
+import "../scss/components/tvShows.scss";
 export default {
   name: "TvShows",
   data: () => ({
@@ -70,6 +86,7 @@ export default {
     this.fetchShows();
   },
   computed: {
+    //filter result for search
     filteredResult() {
       let { result } = this;
       const { searchQuery } = this;
@@ -81,12 +98,21 @@ export default {
       result = result.filter((item) => item);
       return result;
     },
+    //filter from movies array to get genre drama
     movieDramaGenre() {
       let dramaGenre = this.movies.filter((m) =>
         m.genres.find((g) => g.toLowerCase() === "drama")
       );
 
       return dramaGenre;
+    },
+    //filter from movies array to get genre music
+    tvMusicGenre() {
+      let musicGenre = this.movies.filter((movie) =>
+        movie.genres.find((g) => g.toLowerCase() === "music")
+      );
+
+      return musicGenre;
     },
   },
   methods: {
