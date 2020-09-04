@@ -105,7 +105,7 @@ export default {
         item.show.name.toLowerCase().includes(search.toLowerCase())
       );
     },
-    //filter from movies array to get genre drama
+    //filter from movies array to get genre action
     tvActionGenre() {
       let actionGenre = this.movies.filter((m) =>
         m.genres.find((g) => g.toLowerCase() === "action")
